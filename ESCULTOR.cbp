@@ -1,47 +1,89 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<CodeBlocks_project_file>
-	<FileVersion major="1" minor="6" />
-	<Project>
-		<Option title="ESCULTOR" />
-		<Option pch_mode="2" />
-		<Option compiler="gcc" />
-		<Build>
-			<Target title="Debug">
-				<Option output="bin/Debug/ESCULTOR" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Debug/" />
-				<Option type="1" />
-				<Option compiler="gcc" />
-				<Compiler>
-					<Add option="-g" />
-					<Add directory="include" />
-				</Compiler>
-			</Target>
-			<Target title="Release">
-				<Option output="bin/Release/ESCULTOR" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
-				<Option type="1" />
-				<Option compiler="gcc" />
-				<Compiler>
-					<Add option="-O2" />
-					<Add directory="include" />
-				</Compiler>
-				<Linker>
-					<Add option="-s" />
-				</Linker>
-			</Target>
-		</Build>
-		<Compiler>
-			<Add option="-Wall" />
-			<Add option="-fexceptions" />
-		</Compiler>
-		<Unit filename="include/sculptor.h" />
-		<Unit filename="main.cpp" />
-		<Unit filename="src/sculptor.cpp" />
-		<Extensions>
-			<code_completion />
-			<envvars />
-			<debugger />
-			<lib_finder disable_auto="1" />
-		</Extensions>
-	</Project>
-</CodeBlocks_project_file>
+#include "Sculptor.h"
+#include <cmath>
+//#include <>
+//construtor padrão
+Sculptor::Sculptor(int nx_, int ny_, int nz_)
+{
+    nx=nx_;
+    ny=ny_;
+    nz=nz_;
+    //alocando a memoria da amtriz
+    v= new voxel***[nx]
+    for (int i=0;i<nx;i++) {
+        v[i]=new Voxel[nx];
+    }
+    for (int j=0;j<nx;j++) {
+        for (int k=0;k<ny;k++) {
+            v[j][k]= new Voxel[nz];
+
+        }
+    }
+    for (int i = 0; i< nx; i++){
+        for(int j = 0; j < ny; j++){
+            for (int k = 0; k < nz; k++){
+                v[i][j][k].r = r;
+                v[i][j][k].b = b;
+                v[i][j][k].g = g;
+                v[i][j][k].alpha = alpha;
+                v[i][j][k].isOn = false;
+            }
+        }
+    }    
+    
+}
+
+void Sculptor::setColor(float r, float g, float b, float alpha){
+    r=r_;
+    g=g_;
+    b=b_;
+    a=a_;
+}
+void Sculptor::cutVoxel(int x, int y,int z){
+    x=x_;
+    y=y_;
+    z=z_;
+
+}
+
+void Sculptor::putBox(int x0, int x1, int y0, int y1, int z0, int z1){
+    x0=x0_; x1=x1_;
+    y0=y0_; y1=y1_;
+    z0=z0_; zq1-z1_;
+}
+void Sculptor::cutBox(int x0, int x1, int y0, int y1, int z0, int z1){
+
+
+}
+void Sculptor::putSphere(int xcenter, int ycenter, int zcenter, int radius){
+
+
+}
+void Sculptor::cutSphere(int xcenter, int ycenter, int zcenter, int radius){
+
+
+}
+void Sculptor::putEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int ry, int rz){
+    /*float  xelp,yelp, raiox, raioy;
+    int start_ang=0, end_ang=360;
+
+
+
+    */
+
+}
+
+void Sculptor::cutEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int ry, int rz){
+
+
+}
+void Sculptor:: writeOFF(const char* filename){
+
+
+}
+
+//destrutor
+Sculptor::~Sculptor()
+{
+    //dtor
+}
+
