@@ -1,6 +1,10 @@
 #ifndef SCULPTOR_H
 #define SCULPTOR_H
-
+struct Voxel {
+  float r,g,b; // Cores
+  float a;// Transparencia
+  bool isOn; // Inclui ou não
+};
 
 class Sculptor
 {
