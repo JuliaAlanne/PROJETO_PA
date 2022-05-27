@@ -52,16 +52,16 @@ void Sculptor::cutVoxel(int x, int y,int z){
 
 void Sculptor::putBox(int x0, int x1, int y0, int y1, int z0, int z1){
     //USO DE OPERADORES TERNARIOS (substituindo if/else)
-    x0=(x0<0) ? 0: x0;
-    x1= (x1> this->nx) ? this-> nx : x1);
+   /* x0=(x0<0) ? 0: x0;
+    x1= (x1> this->nx) ? this -> nx : x1);
     y0=(y0<0) ? 0:y0;
     y1= (x1> this->ny) ? this -> ny : y1);
     z0=(z0<0) ? 0 : z0;
-    z1= (z1> this->nz )? this-> nz : z1);
+    z1= (z1> this->nz )? this -> nz : z1);*/
     for (int i=x0;i<x1;i++){
         for (int j=y0;j<y1;j++){
             for (int k=z0;k<z1;k++){
-                    this n->putvoxel(i,j,k);
+                    this ->putVoxel(i,j,k);
             }
         }
 
@@ -69,23 +69,23 @@ void Sculptor::putBox(int x0, int x1, int y0, int y1, int z0, int z1){
 
 }
 void Sculptor::cutBox(int x0, int x1, int y0, int y1, int z0, int z1){
-    x0=(x0<0) ? 0: x0;
+    /*x0=(x0<0) ? 0: x0;
     x1= (x1> this->nx ? this nx=x1);
     y0=(y0<0) ? 0:y0;
     y1= (x1> this->ny ? this ny=y1);
     z0=(z0<0) ? 0 : z0;
-    z1= (z1> this->nz ? this nz=z1);
+    z1= (z1> this->nz ? this nz=z1);*/
     for (int i=0;i<x0;i++){
         for (int j=0;j<y0;j++){
             for (int k=0;k<z0;k++){
-                    this n->cutvoxel(i,j,k);
+                    this ->cutVoxel(i,j,k);
             }
         }
 
     }
 
 }
-}
+
 void Sculptor::putSphere(int xcenter, int ycenter, int zcenter, int radius){
 
 
@@ -100,11 +100,11 @@ void Sculptor::putEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int r
 }
 void Sculptor::cutEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int ry, int rz){
 }*/
-void Sculptor:: writeOFF(const char* filename){
-    ofstream file;
-    file.open(filename);
-    file<< "OFF\n";
-    file.close()
+void Sculptor::writeOFF(const char* filename){
+    std::ofstream fl;
+    fl.open(filename);
+    fl<< "OFF\n";
+    fl.close()
 }
 
 //destrutor
