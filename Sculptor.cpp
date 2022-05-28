@@ -30,6 +30,17 @@ Sculptor::Sculptor(int nx_, int ny_, int nz_)
         }
     }
 }
+Sculptor::~Sculptor()
+{
+   for (int i=0;i<nx;i++)
+    {
+        for (int j=0;j<ny;j++) {
+            delete[] v[i][j];
+        }
+        delete[] v[i];
+        }
+    delete[] v;
+}
 
 void Sculptor::setColor(float r, float g, float b, float alpha){
     this ->r=r;
@@ -86,36 +97,63 @@ void Sculptor::cutBox(int x0, int x1, int y0, int y1, int z0, int z1){
 
 }
 
-void Sculptor::putSphere(int xcenter, int ycenter, int zcenter, int radius){
+void Sculptor::putSphere(int xcenter, int ycenter, int zcenter, int r){
+    for (int i=xcenter-r;i<xcenter+r;i++){
+        for (int j=ycenter-r;j<ycenter+r;j++){
+            for (int k=zcenter-r;k<zcenter+r;k++){
+                 if(pow(k - zcenter, 2) + pow(j - ycenter, 2) + pow(i - xcenter, 2) < pow(r, 2)){
+                    this ->putVoxel(i,j,k);
+                 }
+            }
+        }
 
+    }
 
 }
-void Sculptor::cutSphere(int xcenter, int ycenter, int zcenter, int radius){
 
+
+void Sculptor::cutSphere(int xcenter, int ycenter, int zcenter, int r){
+    for (int i=xcenter-r;i<xcenter+r;i++){
+        for (int j=ycenter-r;j<ycenter+r;j++){
+            for (int k=zcenter-r;k<zcenter+r;k++){
+                 if(pow(k - zcenter, 2) + pow(j - ycenter, 2) + pow(i - xcenter, 2) < pow(r, 2)){
+                    this ->cutVoxel(i,j,k);
+                 }
+            }
+        }
+
+    }
 
 }
 void Sculptor::putEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int ry, int rz){
     /*float  xelp,yelp, raiox, raioy;
-    int start_ang=0, end_ang=360;
+    int start_ang=0, end_ang=360;*/
+    for(int i = xcenter - rx; i < xcenter + rx; i++){
+        for(int j = ycenter - ry; j < ycenter + ry; j++){
+            for(int k = zcenter - rz; k < zcenter + rz; k++){
+                if(pow(k - zcenter, 2)/pow(rz, 2) + pow(i - ycenter, 2)/pow(ry, 2) + pow(j - xcenter, 2)/pow(rx, 2) < 1){
+                    this -> putVoxel(i,j,k);
+                }
+            }
+        }
+    }
 }
-void Sculptor::cutEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int ry, int rz){
-}*/
-void Sculptor::writeOFF(const char* filename){
+void Sculptor::cutEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int ry, int rz){    for(int i = xcenter - rx; i < xcenter + rx; i++){
+    for(int j = ycenter - ry; j < ycenter + ry; j++){
+            for(int k = zcenter - rz; k < zcenter + rz; k++){
+                if(pow(k - zcenter, 2)/pow(rz, 2) + pow(i - ycenter, 2)/pow(ry, 2) + pow(j - xcenter, 2)/pow(rx, 2) < 1){
+                    this -> cutVoxel(i,j,k);
+                }
+            }
+        }
+    }
+}
+void Sculptor::writeOFF( char* f){
     std::ofstream fl;
-    fl.open(filename);
+    fl.open(f);
     fl<< "OFF\n";
-    fl.close()
+    fl.close();
 }
 
 //destrutor
-Sculptor::~Sculptor()
-{
-   for (int i=0;i<nx;i++)
-    {
-        for (int j=0;j<ny;j++) {
-            delete[] v[i][j];
-        }
-        delete[] v[i];
-        }
-    delete[] v;
-}
+
