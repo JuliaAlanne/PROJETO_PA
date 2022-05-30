@@ -4,7 +4,7 @@
 #include <fstream>
 #include <iomanip>
 //#include <>
-//construtor padrão
+//construtor
 Sculptor::Sculptor(int nx_, int ny_, int nz_)
 {
     nx=nx_;
@@ -30,8 +30,10 @@ Sculptor::Sculptor(int nx_, int ny_, int nz_)
         }
     }
 }
+//Destrutor
 Sculptor::~Sculptor()
 {
+    // liberando a memoria alocada
    for (int i=0;i<nx;i++)
     {
         for (int j=0;j<ny;j++) {
@@ -48,6 +50,7 @@ void Sculptor::setColor(float r, float g, float b, float alpha){
     this ->b=b;
     this ->a=alpha;
 }
+// desenha voxel
 void Sculptor::putVoxel(int x, int y,int z){
     this ->v[x][y][z].isOn=true;
     this ->v[x][y][z].r= this->r;
@@ -56,6 +59,7 @@ void Sculptor::putVoxel(int x, int y,int z){
     this ->v[x][y][z].a= this->a;
 
 }
+// apaga voxel
 void Sculptor::cutVoxel(int x, int y,int z){
     this ->v[x][y][z].isOn=false;
 
@@ -63,12 +67,12 @@ void Sculptor::cutVoxel(int x, int y,int z){
 
 void Sculptor::putBox(int x0, int x1, int y0, int y1, int z0, int z1){
     //USO DE OPERADORES TERNARIOS (substituindo if/else)
-   /* x0=(x0<0) ? 0: x0;
-    x1= (x1> this->nx) ? this -> nx : x1);
+    x0=(x0<0) ? 0: x0;
+    x1= (x1> this->nx) ? this -> nx : x1;
     y0=(y0<0) ? 0:y0;
-    y1= (x1> this->ny) ? this -> ny : y1);
+    y1= (x1> this->ny) ? this -> ny : y1;
     z0=(z0<0) ? 0 : z0;
-    z1= (z1> this->nz )? this -> nz : z1);*/
+    z1= (z1> this->nz )? this -> nz : z1;
     for (int i=x0;i<x1;i++){
         for (int j=y0;j<y1;j++){
             for (int k=z0;k<z1;k++){
@@ -80,12 +84,12 @@ void Sculptor::putBox(int x0, int x1, int y0, int y1, int z0, int z1){
 
 }
 void Sculptor::cutBox(int x0, int x1, int y0, int y1, int z0, int z1){
-    /*x0=(x0<0) ? 0: x0;
-    x1= (x1> this->nx ? this nx=x1);
+    x0=(x0<0) ? 0: x0;
+    x1= (x1> this->nx) ? this-> nx:x1;
     y0=(y0<0) ? 0:y0;
-    y1= (x1> this->ny ? this ny=y1);
+    y1= (x1> this->ny) ? this ->ny:y1;
     z0=(z0<0) ? 0 : z0;
-    z1= (z1> this->nz ? this nz=z1);*/
+    z1= (z1> this->nz) ? this ->nz:z1;
     for (int i=0;i<x0;i++){
         for (int j=0;j<y0;j++){
             for (int k=0;k<z0;k++){
@@ -126,8 +130,6 @@ void Sculptor::cutSphere(int xcenter, int ycenter, int zcenter, int r){
 
 }
 void Sculptor::putEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int ry, int rz){
-    /*float  xelp,yelp, raiox, raioy;
-    int start_ang=0, end_ang=360;*/
     for(int i = xcenter - rx; i < xcenter + rx; i++){
         for(int j = ycenter - ry; j < ycenter + ry; j++){
             for(int k = zcenter - rz; k < zcenter + rz; k++){
@@ -148,11 +150,70 @@ void Sculptor::cutEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int r
         }
     }
 }
-void Sculptor::writeOFF( char* f){
-    std::ofstream fl;
-    fl.open(f);
-    fl<< "OFF\n";
-    fl.close();
+void Sculptor::writeOFF( const char* filename){
+    std::ofstream file;
+    int cont=0, index=0;
+    file.open(filename);
+    file<< "OFF\n";
+    for (int i=0;i<nx;i++){
+        for (int j=0;j<ny;j++){
+            for (int k=0;k<nz;k++){
+                if (v[i][j][k].isOn==true){
+                    cont++;
+                }
+            }
+        }
+
+    }
+    file<< cont*8<< " "<< cont *6<< " "<< "\n";
+    for (int i=0;i<nx;i++){
+        for (int j=0;j<ny;j++){
+            for (int k=0;k<nz;k++){
+                if (v[i][j][k].isOn==true){
+                    file << i - 0.5 << " " << j + 0.5 << " " << k - 0.5 << "\n" << std::flush;
+        			file << i - 0.5 << " " << j - 0.5 << " " << k - 0.5 << "\n" << std::flush;
+                    file << i + 0.5 << " " << j - 0.5 << " " << k - 0.5 << "\n" << std::flush;
+                    file << i + 0.5 << " " << j + 0.5 << " " << k - 0.5 << "\n" << std::flush;
+                    file << i - 0.5 << " " << j + 0.5 << " " << k + 0.5 << "\n" << std::flush;
+                    file << i - 0.5 << " " << j - 0.5 << " " << k + 0.5 << "\n" << std::flush;
+                    file << i + 0.5 << " " << j - 0.5 << " " << k + 0.5 << "\n" << std::flush;
+                    file << i + 0.5 << " " << j + 0.5 << " " << k + 0.5 << "\n" << std::flush;
+                }
+            }
+        }
+
+    }
+ cont=0;
+    for (int i=0; i<nx; i++){
+        for (int j=0; j<ny; j++){
+            for (int k=0; k<nz; k++){
+        		if(v[i][j][k].isOn == true){
+        			index = cont*8;
+        			file << std::fixed;
+        			file << 4 << " " << index + 0 << " " << index + 3 << " " << index + 2 << " " << index + 1 << " ";
+                    file << std::setprecision(2) << v[i][j][k].r << " " << std::setprecision(2) << v[i][j][k].g << " " << std::setprecision(2) << v[i][j][k].b << " " <<std::setprecision(2) << v[i][j][k].a << std::setprecision(2) << "\n";
+
+                    file << 4 << " " << index + 4 << " " << index + 5 << " " << index + 6 << " " << index + 7 << " ";
+                    file << std::setprecision(2) << v[i][j][k].r << " " << std::setprecision(2) << v[i][j][k].g << " " << std::setprecision(2) << v[i][j][k].b << " " <<std::setprecision(2) << v[i][j][k].a <<std::setprecision(2) << "\n";
+
+                    file << 4 << " " << index + 0 << " " << index + 1 << " " << index + 5 << " " << index + 4 << " ";
+                    file  << std::setprecision(2) << v[i][j][k].r << " " << std::setprecision(2) << v[i][j][k].g << " " <<std::setprecision(2)<< v[i][j][k].b << " " << std::setprecision(2)<< v[i][j][k].a << std::setprecision(2) << "\n";
+
+                    file << 4 << " " << index + 0 << " " << index + 4 << " " << index + 7 << " " << index + 3 << " ";
+                    file << std::setprecision(2) << v[i][j][k].r << " " << std::setprecision(2) << v[i][j][k].g << " " << std::setprecision(2) << v[i][j][k].b << " " << std::setprecision(2) << v[i][j][k].a << std::setprecision(2) << "\n";
+
+                    file<< 4 << " " << index + 7 << " " << index + 6 << " " << index + 2 << " " << index + 3 << " ";
+                    file << std::setprecision(2) << v[i][j][k].r << " " <<std::setprecision(2)<< v[i][j][k].g << " " << std::setprecision(2) << v[i][j][k].b << " " <<std::setprecision(2) << v[i][j][k].a << std::setprecision(2)<< "\n";
+
+                    file << 4 << " " << index + 1 << " " << index + 2 << " " << index + 6 << " " << index + 5 << " ";
+                    file << std::setprecision(2) << v[i][j][k].r << " " << std::setprecision(2) << v[i][j][k].g << " " << std::setprecision(2) << v[i][j][k].b << " " << std::setprecision(2) << v[i][j][k].a <<std::setprecision(2)<< "\n";
+
+                    cont++;
+                }
+            }
+        }
+    }
+    file.close();
 }
 
 //destrutor
