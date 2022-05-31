@@ -165,7 +165,7 @@ void Sculptor::writeOFF( const char* filename){
         }
 
     }
-    file<< cont*8<< " "<< cont *6<< " "<< "\n";
+    file<< cont*8<< " "<< cont *6<< " "<<"0"<< "\n";
     for (int i=0;i<nx;i++){
         for (int j=0;j<ny;j++){
             for (int k=0;k<nz;k++){
@@ -189,7 +189,7 @@ void Sculptor::writeOFF( const char* filename){
             for (int k=0; k<nz; k++){
         		if(v[i][j][k].isOn == true){
         			index = cont*8;
-        			file << std::fixed;
+                    file << std::fixed;
         			file << 4 << " " << index + 0 << " " << index + 3 << " " << index + 2 << " " << index + 1 << " ";
                     file << std::setprecision(2) << v[i][j][k].r << " " << std::setprecision(2) << v[i][j][k].g << " " << std::setprecision(2) << v[i][j][k].b << " " <<std::setprecision(2) << v[i][j][k].a << std::setprecision(2) << "\n";
 
