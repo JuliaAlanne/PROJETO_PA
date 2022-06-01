@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <iomanip>
-//#include <>
+
 //construtor
 Sculptor::Sculptor(int nx_, int ny_, int nz_)
 {
@@ -43,14 +43,14 @@ Sculptor::~Sculptor()
         }
     delete[] v;
 }
-
+//metodo cores
 void Sculptor::setColor(float r, float g, float b, float alpha){
     this ->r=r;
     this ->g=g;
     this ->b=b;
     this ->a=alpha;
 }
-// desenha voxel
+// metodo para desenhar voxel
 void Sculptor::putVoxel(int x, int y,int z){
     this ->v[x][y][z].isOn=true;
     this ->v[x][y][z].r= this->r;
@@ -59,12 +59,12 @@ void Sculptor::putVoxel(int x, int y,int z){
     this ->v[x][y][z].a= this->a;
 
 }
-// apaga voxel
+// metodo para apagar o voxel
 void Sculptor::cutVoxel(int x, int y,int z){
     this ->v[x][y][z].isOn=false;
 
 }
-
+//Desenha caixa
 void Sculptor::putBox(int x0, int x1, int y0, int y1, int z0, int z1){
     //USO DE OPERADORES TERNARIOS (substituindo if/else)
     x0=(x0<0) ? 0: x0;
@@ -83,6 +83,7 @@ void Sculptor::putBox(int x0, int x1, int y0, int y1, int z0, int z1){
     }
 
 }
+// apaga caixa
 void Sculptor::cutBox(int x0, int x1, int y0, int y1, int z0, int z1){
     x0=(x0<0) ? 0: x0;
     x1= (x1> this->nx) ? this-> nx:x1;
@@ -100,7 +101,7 @@ void Sculptor::cutBox(int x0, int x1, int y0, int y1, int z0, int z1){
     }
 
 }
-
+//desenha esfera
 void Sculptor::putSphere(int xcenter, int ycenter, int zcenter, int r){
     for (int i=xcenter-r;i<xcenter+r;i++){
         for (int j=ycenter-r;j<ycenter+r;j++){
@@ -115,7 +116,7 @@ void Sculptor::putSphere(int xcenter, int ycenter, int zcenter, int r){
 
 }
 
-
+//apaga esfera
 void Sculptor::cutSphere(int xcenter, int ycenter, int zcenter, int r){
     for (int i=xcenter-r;i<xcenter+r;i++){
         for (int j=ycenter-r;j<ycenter+r;j++){
@@ -129,6 +130,7 @@ void Sculptor::cutSphere(int xcenter, int ycenter, int zcenter, int r){
     }
 
 }
+// desenha elipessoide
 void Sculptor::putEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int ry, int rz){
     for(int i = xcenter - rx; i < xcenter + rx; i++){
         for(int j = ycenter - ry; j < ycenter + ry; j++){
@@ -140,6 +142,7 @@ void Sculptor::putEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int r
         }
     }
 }
+// apaga elipissoide
 void Sculptor::cutEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int ry, int rz){    for(int i = xcenter - rx; i < xcenter + rx; i++){
     for(int j = ycenter - ry; j < ycenter + ry; j++){
             for(int k = zcenter - rz; k < zcenter + rz; k++){
@@ -150,6 +153,7 @@ void Sculptor::cutEllipsoid(int xcenter, int ycenter, int zcenter, int rx, int r
         }
     }
 }
+//escreve o arquivo OFF
 void Sculptor::writeOFF( const char* filename){
     std::ofstream file;
     int cont=0, index=0;
